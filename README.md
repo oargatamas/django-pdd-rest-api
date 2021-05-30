@@ -18,15 +18,3 @@ Acceptance Criteria
 - A list of purchase records made in a specified time range is returned in JSON format
 when a date time range is provided
 
-### Time
-We want you to be happy with your solution, so there’s no hard time limit to completing this task.
-However, as a guideline, our Developers usually have a working solution after a couple of
-hours.
-Submitting
-Please share the private GitHub repo containing your solution with the user hotovo-uk.
-
-### What to Build
-We believe in using the right tool for the job. For a task like this we would likely create a REST
-API using Java + Spring Boot or perhaps Python + Django. Please justify your technology
-choices in your project’s README file. Write the code for your solution as you would do for any
-production application.
