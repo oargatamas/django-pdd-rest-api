@@ -18,3 +18,6 @@ Acceptance Criteria
 - A list of purchase records made in a specified time range is returned in JSON format
 when a date time range is provided
 
+## Libs
+django
+django-adaptors

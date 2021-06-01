@@ -1,24 +1,28 @@
-from django.db import models
+from adaptor.fields import CharField, DecimalField, DateField, BooleanField
+from adaptor.model import CsvModel
 
 
 # Create your models here.
-class PricePaidData(models.Model):
-    transactionUniqueIdentifier = models.CharField()
-    price = models.DecimalField()
-    dateOfTransfer = models.DateTimeField()
-    postCode = models.CharField()
-    propertyType = models.CharField(max_length=1)
-    oldOrNew = models.BooleanField()
-    duration = models.CharField(max_length=1)
-    paon = models.CharField()
-    saon = models.CharField()
-    street = models.CharField()
-    locality = models.CharField()
-    city = models.CharField()
-    district = models.CharField()
-    county = models.CharField()
-    category = models.CharField(max_length=1)
-    status = models.CharField(max_length=1)
+class PricePaidData(CsvModel):
+    transactionUniqueIdentifier = CharField()
+    price = DecimalField()
+    dateOfTransfer = DateField()
+    postCode = CharField()
+    propertyType = CharField(max_length=1)
+    oldOrNew = BooleanField()
+    duration = CharField(max_length=1)
+    paon = CharField()
+    saon = CharField()
+    street = CharField()
+    locality = CharField()
+    city = CharField()
+    district = CharField()
+    county = CharField()
+    category = CharField(max_length=1)
+    status = CharField(max_length=1)
+
+    class Meta:
+        delimiter = ","
 
 
 class PagingDetails:
