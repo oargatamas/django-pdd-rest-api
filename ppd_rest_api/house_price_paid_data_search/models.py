@@ -20,3 +20,11 @@ class PricePaidData(models.Model):
     category = models.CharField()
     status = models.CharField()
 
+
+class PagingDetails:
+    pageNumber = 0
+    startRecord = 0
+    endRecord = 0
+    hasNextPage = False
+    hasPrevPage = False
+
