@@ -7,9 +7,9 @@ class PricePaidData(models.Model):
     price = models.DecimalField()
     dateOfTransfer = models.DateTimeField()
     postCode = models.CharField()
-    propertyType = models.CharField()
+    propertyType = models.CharField(max_length=1)
     oldOrNew = models.BooleanField()
-    duration = models.CharField()
+    duration = models.CharField(max_length=1)
     paon = models.CharField()
     saon = models.CharField()
     street = models.CharField()
@@ -17,14 +17,14 @@ class PricePaidData(models.Model):
     city = models.CharField()
     district = models.CharField()
     county = models.CharField()
-    category = models.CharField()
-    status = models.CharField()
+    category = models.CharField(max_length=1)
+    status = models.CharField(max_length=1)
 
 
 class PagingDetails:
-    pageNumber = 0
-    startRecord = 0
-    endRecord = 0
-    hasNextPage = False
-    hasPrevPage = False
+    pageNumber: int
+    startRecord: int
+    endRecord: int
+    hasNextPage: bool
+    hasPrevPage: bool
 
