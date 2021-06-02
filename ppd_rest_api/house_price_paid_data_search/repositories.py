@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 from typing import IO
 from . import converters
 from ppd_rest_api import settings
+import csv
 
 
 class CsvPpdRepository(ABC):
@@ -25,14 +26,13 @@ class CsvPpdRepository(ABC):
         with self.get_csv_data() as file :
             i = 0
             matches = 0
-            while matches < limit:
-                line = file.readline()
-
-                if not line:
+            for line in file:
+                if not line or matches > limit:
                     break
 
                 if i >= offset and filter(line):
                     records.append(converter.covertCsvRow(line))
+                    matches += 1
                 i += 1
 
             file.close()
