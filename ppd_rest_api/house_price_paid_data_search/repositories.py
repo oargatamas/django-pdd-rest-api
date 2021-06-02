@@ -2,8 +2,10 @@ from abc import abstractmethod, ABC
 from typing import IO
 from . import converters
 from ppd_rest_api import settings
-import csv
 
+
+def get_repository():
+    return FileSystemCachedCsvPpdRepository()
 
 class CsvPpdRepository(ABC):
 
