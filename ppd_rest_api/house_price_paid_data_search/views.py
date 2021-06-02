@@ -27,6 +27,7 @@ def all_ppd(request):
 
 def all_ppd_in_period(request, from_period, until_period):
     repository = repositories.get_repository()
+    page_no = request.GET.get("pageNo",1)
 
     parsed_from_period = datetime.strptime(from_period, settings.API_DATE_FORMAT)
     parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
@@ -44,6 +45,7 @@ def all_ppd_in_period(request, from_period, until_period):
 
 def ppd_by_id(request, unique_id):
     repository = repositories.get_repository()
+    page_no = request.GET.get("pageNo",1)
 
     result = repository.find_record_by_id(unique_id)
     if not result:
