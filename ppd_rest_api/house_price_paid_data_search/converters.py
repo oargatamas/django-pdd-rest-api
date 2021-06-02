@@ -1,6 +1,7 @@
-from time import strptime
+from datetime import datetime
 
 from . import models
+from ppd_rest_api import settings
 
 
 class PpdCsvRowConverter:
@@ -9,7 +10,7 @@ class PpdCsvRowConverter:
         return models.PricePaidData(
             id=row_array[0].replace("{",'').replace("}",''),
             price=float(row_array[1]),
-            date_of_transfer=strptime(row_array[2],"%Y-%m-%d %H:%M"),
+            date_of_transfer=datetime.strptime(row_array[2],settings.DATE_FORMAT),
             post_code=row_array[3],
             property_type=row_array[4],
             old_or_new=row_array[5],
