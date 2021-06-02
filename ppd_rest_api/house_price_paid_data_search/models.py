@@ -27,5 +27,5 @@ class PagingDetails(models.Model):
     page_number = models.IntegerField()
     start_record = models.IntegerField()
     end_record = models.IntegerField()
-    has_next_page = models.BooleanField()
-    has_prev_page = models.BooleanField()
+    next_page = models.CharField(max_length=250)
+    prev_page = models.CharField(max_length=250)
