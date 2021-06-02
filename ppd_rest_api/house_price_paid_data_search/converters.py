@@ -6,7 +6,7 @@ from ppd_rest_api import settings
 
 class PpdCsvRowConverter:
     def covertCsvRow(self, row):
-        row_array = row.replace('"','').split(sep=',')
+        row_array = row.replace('"','').replace('\n','').split(sep=',')
         return models.PricePaidData(
             id=row_array[0].replace("{",'').replace("}",''),
             price=float(row_array[1]),
