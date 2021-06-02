@@ -3,6 +3,7 @@ from datetime import datetime
 from django.http import HttpResponse
 
 # Create your views here.
+from django.urls import reverse
 from rest_framework import renderers, response
 
 from . import repositories, models
@@ -10,7 +11,7 @@ from . import serializers
 from . import repositories
 from ppd_rest_api import settings
 from .models import PagingPricePaidData
-from .paging import init_paging_details
+from .paging import init_paging_details, set_paging_links
 
 
 def all_ppd(request):
@@ -20,6 +21,7 @@ def all_ppd(request):
     result = repository.find_all_records(paging.start_record,paging.end_record)
 
     paging.end_record = len(result)
+    set_paging_links(paging, request.build_absolute_uri(reverse("get-all-ppd")))
 
     content = PagingPricePaidData()
     content.paging = paging
@@ -44,14 +46,20 @@ def all_ppd_in_period(request, from_period, until_period):
 
     result = repository.find_all_records_between(parsed_from_period, parsed_until_period, paging.start_record, paging.end_record)
 
-    paging.end_record = result.count()
-    serializer = serializers.PricePaidDataSerializer(result, many=True)
+    paging.end_record = len(result)
+    set_paging_links(paging, request.build_absolute_uri(reverse("get-all-ppd-in-period",args=(from_period,until_period))))
+
+    content = PagingPricePaidData()
+    content.paging = paging
+    content.price_paid_data = result
+    content_serializer = serializers.PagingPricePaidDataSerializer(content, many=False)
+
     render = renderers.JSONRenderer()
 
     return HttpResponse(
         status=200,
         content_type="application/json",
-        content=render.render(serializer.data)
+        content=render.render(content_serializer.data)
     )
 
 

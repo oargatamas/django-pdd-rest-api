@@ -1,3 +1,4 @@
+
 from . import models
 from ppd_rest_api import settings
 
@@ -12,3 +13,12 @@ def init_paging_details(page_number):
         prev_page="",
         next_page="",
     )
+
+
+def set_paging_links(paging, url):
+    number_of_items = paging.end_record - paging.start_record
+    if number_of_items >= settings.PAGE_SIZE:
+        paging.next_page = url  + "?pageNo=" + str(paging.page_number + 1)
+
+    if paging.page_number > 1 :
+        paging.prev_page = url + "?pageNo=" + str(paging.page_number -1)
