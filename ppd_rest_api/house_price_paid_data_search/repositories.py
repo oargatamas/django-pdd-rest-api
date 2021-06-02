@@ -1,12 +1,16 @@
+import os
 from abc import abstractmethod, ABC
 from datetime import datetime
 from typing import IO
+
+import requests
+
 from . import converters
 from ppd_rest_api import settings
 
 
 def get_repository():
-    return FileSystemCachedCsvPpdRepository()
+    return RealTimeLatestCsvPpdRepository()
 
 class CsvPpdRepository(ABC):
 
@@ -40,10 +44,15 @@ class CsvPpdRepository(ABC):
                     matches += 1
                 i += 1
 
+        self.cleanup()
+
         return records
 
     @abstractmethod
     def get_csv_data(self) -> IO:
+        pass
+
+    def cleanup(self):
         pass
 
 
@@ -51,3 +60,16 @@ class FileSystemCachedCsvPpdRepository(CsvPpdRepository):
 
     def get_csv_data(self) -> IO:
         return open(settings.LOCAL_CSV_FILE_URI,"r")
+
+
+class RealTimeLatestCsvPpdRepository(CsvPpdRepository):
+    def get_csv_data(self) -> IO:
+        response = requests.get(settings.LATEST_CSV_URL)
+        self.temp_file_path = "latest_ppd_cache.csv"
+        file = open(self.temp_file_path, 'w+')
+        file.write(response.text)
+        file.seek(0)
+        return file
+
+    def cleanup(self):
+        pass
