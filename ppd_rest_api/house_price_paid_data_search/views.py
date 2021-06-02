@@ -46,7 +46,7 @@ def ppd_by_id(request, unique_id):
             content_type="application/json",
         )
 
-    serializer = serializers.PricePaidDataSerializer(result, many=False)
+    serializer = serializers.PricePaidDataSerializer(result[0], many=False)
     render = renderers.JSONRenderer()
 
     return HttpResponse(
