@@ -1,4 +1,7 @@
 from abc import abstractmethod
+from typing import IO
+
+from ppd_rest_api.house_price_paid_data_search.converters import PpdCsvRowConverter
 
 
 class CsvPpdRepository:
@@ -17,12 +20,25 @@ class CsvPpdRepository:
 
     def __get_records(self, filter, offset, limit):
         records = []
+        converter = PpdCsvRowConverter()
+
+        with self.__get_csv_data() as file :
+            i = 0
+            matches = 0
+            while matches < limit:
+                line = file.readline()
+
+                if not line:
+                    break
+
+                if i >= offset and filter(line):
+                    records.append(converter.covertCsvRow(line))
+                i += 1
+
+            file.close()
 
         return records
 
     @abstractmethod
-    def __get_csv_data(self):
-        pass
-
-    def __cleanup(self):
+    def __get_csv_data(self) -> IO:
         pass
