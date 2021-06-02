@@ -127,4 +127,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DATE_FORMAT= "%Y-%m-%d %H:%M"
 LOCAL_CSV_FILE_URI = 'C:/Users/oarga/Downloads/pp-complete.csv'
