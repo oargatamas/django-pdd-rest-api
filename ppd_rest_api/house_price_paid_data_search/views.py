@@ -9,12 +9,14 @@ from . import repositories, models
 from . import serializers
 from . import repositories
 from ppd_rest_api import settings
+from .paging import init_paging_details
 
 
 def all_ppd(request):
     repository = repositories.get_repository()
+    paging = init_paging_details(int(request.GET.get("pageNo", 1)))
 
-    result = repository.find_all_records(0, 10)
+    result = repository.find_all_records(paging.start_record,paging.end_record)
     serializer = serializers.PricePaidDataSerializer(result, many=True)
     render = renderers.JSONRenderer()
 
@@ -27,12 +29,12 @@ def all_ppd(request):
 
 def all_ppd_in_period(request, from_period, until_period):
     repository = repositories.get_repository()
-    page_no = request.GET.get("pageNo",1)
+    paging = init_paging_details(int(request.GET.get("pageNo", 1)))
 
     parsed_from_period = datetime.strptime(from_period, settings.API_DATE_FORMAT)
     parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
 
-    result = repository.find_all_records_between(parsed_from_period, parsed_until_period, 0, 10)
+    result = repository.find_all_records_between(parsed_from_period, parsed_until_period, paging.start_record, paging.end_record)
     serializer = serializers.PricePaidDataSerializer(result, many=True)
     render = renderers.JSONRenderer()
 
@@ -45,7 +47,7 @@ def all_ppd_in_period(request, from_period, until_period):
 
 def ppd_by_id(request, unique_id):
     repository = repositories.get_repository()
-    page_no = request.GET.get("pageNo",1)
+
 
     result = repository.find_record_by_id(unique_id)
     if not result:
