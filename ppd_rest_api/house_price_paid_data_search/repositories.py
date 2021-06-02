@@ -1,10 +1,10 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from typing import IO
-
 from ppd_rest_api.house_price_paid_data_search.converters import PpdCsvRowConverter
+from ppd_rest_api.ppd_rest_api import settings
 
 
-class CsvPpdRepository:
+class CsvPpdRepository(ABC):
 
     def find_record_by_id(self, transaction_id):
         filter = lambda row: row[0] == transaction_id
@@ -42,3 +42,9 @@ class CsvPpdRepository:
     @abstractmethod
     def __get_csv_data(self) -> IO:
         pass
+
+
+class FileSystemCachedCsvPpdRepository(CsvPpdRepository):
+
+    def __get_csv_data(self) -> IO:
+        return open(settings.LOCAL_CSV_FILE_URI,"r")
