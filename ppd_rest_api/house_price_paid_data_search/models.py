@@ -1,26 +1,26 @@
 
 
 # Create your models here.
-from django.db import models
+from datetime import datetime
 
 
-class PricePaidData(models.Model):
-    transactionUniqueIdentifier = models.CharField(max_length=100)
-    price = models.DecimalField(decimal_places=2, max_digits=100)
-    dateOfTransfer = models.DateField()
-    postCode = models.CharField(max_length=100)
-    propertyType = models.CharField(max_length=1)
-    oldOrNew = models.BooleanField()
-    duration = models.CharField(max_length=1)
-    paon = models.CharField(max_length=100)
-    saon = models.CharField(max_length=100)
-    street = models.CharField(max_length=100)
-    locality = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-    county = models.CharField(max_length=100)
-    category = models.CharField(max_length=1)
-    status = models.CharField(max_length=1)
+class PricePaidData():
+    transactionUniqueIdentifier: str
+    price: float
+    dateOfTransfer: datetime
+    postCode: str
+    propertyType: str
+    oldOrNew: bool
+    duration: str
+    paon: str
+    saon: str
+    street: str
+    locality: str
+    city: str
+    district: str
+    county: str
+    category: str
+    status: str
 
 
 class PagingDetails:
