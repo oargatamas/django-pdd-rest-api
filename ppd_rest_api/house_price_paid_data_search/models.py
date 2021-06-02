@@ -5,7 +5,7 @@ from django.db import models
 
 
 class PricePaidData(models.Model):
-    transaction_unique_identifier = models.CharField(),
+    id = models.CharField(),
     price = models.DecimalField(),
     date_of_transfer = models.DateTimeField(),
     post_code = models.CharField(),

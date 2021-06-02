@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 class PricePaidDataSerializer(serializers.Serializer):
     transaction_unique_identifier = serializers.CharField(),
-    price = serializers.DecimalField(),
+    price = serializers.DecimalField(max_digits=100,decimal_places=2),
     date_of_transfer = serializers.DateTimeField(),
     post_code = serializers.CharField(),
     property_type = serializers.CharField(),
