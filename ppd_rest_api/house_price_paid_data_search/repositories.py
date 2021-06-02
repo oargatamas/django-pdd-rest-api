@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from datetime import datetime
 from typing import IO
 from . import converters
 from ppd_rest_api import settings
@@ -10,7 +11,7 @@ def get_repository():
 class CsvPpdRepository(ABC):
 
     def find_record_by_id(self, transaction_id):
-        filter = lambda row: row[0] == '"{' + transaction_id + '}"'
+        filter = lambda row: row[0] == '{' + transaction_id + '}'
 
         return self.__get_records(filter, 0, 1)
 
@@ -19,8 +20,7 @@ class CsvPpdRepository(ABC):
         return self.__get_records(filter, offset, limit)
 
     def find_all_records_between(self, from_period, until_period, offset, limit):
-        filter = lambda row: \
-            row[2] >= from_period and row[2] <= until_period
+        filter = lambda row: datetime.strptime(row[2],settings.DATE_FORMAT) >= from_period and datetime.strptime(row[2],settings.DATE_FORMAT)  <= until_period
         return self.__get_records(filter, offset, limit)
 
     def __get_records(self, filter, offset, limit):
@@ -35,7 +35,7 @@ class CsvPpdRepository(ABC):
                 if not line:
                     break
 
-                if i >= offset and filter(line.split(sep=',')):
+                if i >= offset and filter(line.replace('"','').split(sep=',')):
                     records.append(converter.covertCsvRow(line))
                     matches += 1
                 i += 1

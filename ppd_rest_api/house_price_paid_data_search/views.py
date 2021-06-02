@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse
 
 # Create your views here.
@@ -6,6 +8,7 @@ from rest_framework import renderers, response
 from . import repositories, models
 from . import serializers
 from . import repositories
+from ppd_rest_api import settings
 
 
 def all_ppd(request):
@@ -25,7 +28,10 @@ def all_ppd(request):
 def all_ppd_in_period(request, from_period, until_period):
     repository = repositories.get_repository()
 
-    result = repository.find_all_records_between(from_period, until_period, 0, 10)
+    parsed_from_period = datetime.strptime(from_period, settings.API_DATE_FORMAT)
+    parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
+
+    result = repository.find_all_records_between(parsed_from_period, parsed_until_period, 0, 10)
     serializer = serializers.PricePaidDataSerializer(result, many=True)
     render = renderers.JSONRenderer()
 
