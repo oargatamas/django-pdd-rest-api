@@ -9,6 +9,7 @@ from . import repositories, models
 from . import serializers
 from . import repositories
 from ppd_rest_api import settings
+from .models import PagingPricePaidData
 from .paging import init_paging_details
 
 
@@ -17,13 +18,20 @@ def all_ppd(request):
     paging = init_paging_details(int(request.GET.get("pageNo", 1)))
 
     result = repository.find_all_records(paging.start_record,paging.end_record)
-    serializer = serializers.PricePaidDataSerializer(result, many=True)
+
+    paging.end_record = len(result)
+
+    content = PagingPricePaidData()
+    content.paging = paging
+    content.price_paid_data = result
+    content_serializer = serializers.PagingPricePaidDataSerializer(content, many=False)
+
     render = renderers.JSONRenderer()
 
     return HttpResponse(
         status=200,
         content_type="application/json",
-        content=render.render(serializer.data),
+        content=render.render(content_serializer.data),
     )
 
 
@@ -35,6 +43,8 @@ def all_ppd_in_period(request, from_period, until_period):
     parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
 
     result = repository.find_all_records_between(parsed_from_period, parsed_until_period, paging.start_record, paging.end_record)
+
+    paging.end_record = result.count()
     serializer = serializers.PricePaidDataSerializer(result, many=True)
     render = renderers.JSONRenderer()
 

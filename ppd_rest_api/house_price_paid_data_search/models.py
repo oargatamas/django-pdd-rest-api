@@ -29,3 +29,8 @@ class PagingDetails(models.Model):
     end_record = models.IntegerField()
     next_page = models.CharField(max_length=250)
     prev_page = models.CharField(max_length=250)
+
+class PagingPricePaidData():
+    id = models.IntegerField(primary_key=True)
+    paging = models.OneToOneField(PagingDetails, on_delete=models.CASCADE)
+    price_paid_data = models.ManyToManyField(PricePaidData)

@@ -25,5 +25,9 @@ class PagingDetailsSerializer(serializers.Serializer):
     page_number = serializers.IntegerField()
     start_record = serializers.IntegerField()
     end_record = serializers.IntegerField()
-    has_next_page = serializers.BooleanField()
-    has_prev_page = serializers.BooleanField()
+    next_page = serializers.BooleanField()
+    prev_page = serializers.BooleanField()
+
+class PagingPricePaidDataSerializer(serializers.Serializer):
+    paging = PagingDetailsSerializer()
+    price_paid_data = PricePaidDataSerializer(many=True)
