@@ -127,6 +127,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+PAGE_SIZE = 10
 DATE_FORMAT= "%Y-%m-%d %H:%M"
+API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S"
 LOCAL_CSV_FILE_URI = 'C:/Users/oarga/Downloads/pp-complete.csv'
+LATEST_CSV_URL = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv"
