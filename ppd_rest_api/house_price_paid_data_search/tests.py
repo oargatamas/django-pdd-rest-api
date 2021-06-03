@@ -2,16 +2,12 @@ import io
 
 from django.conf import settings
 from django.test import SimpleTestCase
-import mock
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.test import RequestsClient
 
-# Create your tests here.
-from .models import PagingPricePaidData
-from .repositories import FileSystemCachedCsvPpdRepository, get_repository
 
-from .serializers import PagingPricePaidDataSerializer
+# Create your tests here.
 
 
 class PpdApiTest(SimpleTestCase):

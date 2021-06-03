@@ -1,13 +1,12 @@
-import os
 from abc import abstractmethod, ABC
 from datetime import datetime
 from importlib import import_module
 from typing import IO
 
 import requests
+from django.conf import settings
 
 from . import converters
-from django.conf import settings
 
 
 def get_repository():

@@ -1,6 +1,7 @@
 
-from . import models
 from django.conf import settings
+
+from . import models
 
 
 def init_paging_details(page_number):

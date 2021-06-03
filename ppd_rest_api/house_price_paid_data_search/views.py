@@ -1,20 +1,17 @@
 from datetime import datetime
 
-from django.http import HttpResponse
-
+from django.conf import settings
 # Create your views here.
 from django.urls import reverse
-from django.views import View
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import renderers
-from rest_framework.response import Response
 from rest_framework import status
-from django.conf import settings
-from . import serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from . import repositories
+from . import serializers
 from .models import PagingPricePaidData
 from .paging import init_paging_details, set_paging_links
-from rest_framework.decorators import api_view, schema
 
 
 @swagger_auto_schema(
