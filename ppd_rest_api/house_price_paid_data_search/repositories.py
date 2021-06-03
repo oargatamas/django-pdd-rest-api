@@ -58,13 +58,20 @@ class CsvPpdRepository(ABC):
 
 class FileSystemCachedCsvPpdRepository(CsvPpdRepository):
 
+    def __init__(self,fileUrl = settings.LOCAL_CSV_FILE_URI):
+        self.fileUrl = fileUrl
+
     def get_csv_data(self) -> IO:
-        return open(settings.LOCAL_CSV_FILE_URI,"r")
+        return open(self.fileUrl,"r")
 
 
 class RealTimeLatestCsvPpdRepository(CsvPpdRepository):
+
+    def __init__(self, fileUrl = settings.LATEST_CSV_URL):
+        self.fileUrl = fileUrl
+
     def get_csv_data(self) -> IO:
-        response = requests.get(settings.LATEST_CSV_URL)
+        response = requests.get(self.fileUrl)
         self.temp_file_path = "latest_ppd_cache.csv"
         file = open(self.temp_file_path, 'w+')
         file.write(response.text)
