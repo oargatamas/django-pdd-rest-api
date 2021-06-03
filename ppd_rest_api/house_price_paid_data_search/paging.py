@@ -1,6 +1,7 @@
 
+from django.conf import settings
+
 from . import models
-from ppd_rest_api import settings
 
 
 def init_paging_details(page_number):

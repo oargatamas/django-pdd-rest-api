@@ -1,16 +1,22 @@
-import os
 from abc import abstractmethod, ABC
 from datetime import datetime
+from importlib import import_module
 from typing import IO
 
 import requests
+from django.conf import settings
 
 from . import converters
-from ppd_rest_api import settings
 
 
 def get_repository():
-    return RealTimeLatestCsvPpdRepository()
+    repository = settings.REPOSITORIES['CSV_REPOSITORY']
+    try:
+        module_path, class_name = repository.rsplit('.', 1)
+        module = import_module(module_path)
+        return getattr(module, class_name)()
+    except (ImportError, AttributeError) as e:
+        raise ImportError(repository)
 
 class CsvPpdRepository(ABC):
 
@@ -57,14 +63,23 @@ class CsvPpdRepository(ABC):
 
 
 class FileSystemCachedCsvPpdRepository(CsvPpdRepository):
+    fileUrl = settings.CSV_DATA_LOCATION
+
+    def __init__(self) -> None:
+        pass
 
     def get_csv_data(self) -> IO:
-        return open(settings.LOCAL_CSV_FILE_URI,"r")
+        return open(self.fileUrl,"r")
 
 
 class RealTimeLatestCsvPpdRepository(CsvPpdRepository):
+    fileUrl = settings.CSV_DATA_LOCATION
+
+    def __init__(self) -> None:
+        pass
+
     def get_csv_data(self) -> IO:
-        response = requests.get(settings.LATEST_CSV_URL)
+        response = requests.get(self.fileUrl)
         self.temp_file_path = "latest_ppd_cache.csv"
         file = open(self.temp_file_path, 'w+')
         file.write(response.text)

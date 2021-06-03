@@ -1,21 +1,17 @@
 from datetime import datetime
 
-from django.http import HttpResponse
-
+from django.conf import settings
 # Create your views here.
 from django.urls import reverse
-from django.views import View
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import renderers
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-from . import serializers
 from . import repositories
-from ppd_rest_api import settings
+from . import serializers
 from .models import PagingPricePaidData
 from .paging import init_paging_details, set_paging_links
-from rest_framework.decorators import api_view, schema
 
 
 @swagger_auto_schema(
@@ -32,7 +28,7 @@ def all_ppd(request):
     repository = repositories.get_repository()
     paging = init_paging_details(int(request.GET.get("pageNo", 1)))
 
-    result = repository.find_all_records(paging.start_record, paging.end_record)
+    result = repository.find_all_records(offset=paging.start_record, limit=paging.end_record)
 
     paging.end_record = len(result)
     set_paging_links(paging, request.build_absolute_uri(reverse("get-all-ppd")))
@@ -61,6 +57,12 @@ def all_ppd_in_period(request, from_period, until_period):
 
     parsed_from_period = datetime.strptime(from_period, settings.API_DATE_FORMAT)
     parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
+
+    if parsed_from_period > parsed_until_period:
+        return Response(
+            data={"message": "Invalid date range provided"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     result = repository.find_all_records_between(parsed_from_period, parsed_until_period, paging.start_record,
                                                  paging.end_record)

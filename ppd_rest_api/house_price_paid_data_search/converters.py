@@ -1,7 +1,8 @@
 from datetime import datetime
 
+from django.conf import settings
+
 from . import models
-from ppd_rest_api import settings
 
 
 class PpdCsvRowConverter:
