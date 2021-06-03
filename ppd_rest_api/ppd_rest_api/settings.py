@@ -139,5 +139,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PAGE_SIZE = 100
 DATE_FORMAT = "%Y-%m-%d %H:%M"
 API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S"
-CSV_DATA_LOCATION = 'house_price_paid_data_search/test_data/samples_all.csv'
+CSV_DATA_LOCATION = 'C:/Users/oarga/Downloads/pp-complete.csv'
 #CSV_DATA_LOCATION = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv"
