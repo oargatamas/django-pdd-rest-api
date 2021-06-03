@@ -32,7 +32,7 @@ def all_ppd(request):
     repository = repositories.get_repository()
     paging = init_paging_details(int(request.GET.get("pageNo", 1)))
 
-    result = repository.find_all_records(paging.start_record, paging.end_record)
+    result = repository.find_all_records(offset=paging.start_record, limit=paging.end_record)
 
     paging.end_record = len(result)
     set_paging_links(paging, request.build_absolute_uri(reverse("get-all-ppd")))
