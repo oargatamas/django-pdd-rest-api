@@ -22,11 +22,11 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="House Price Paid Data API",
       default_version='v1',
-      description="Test description",
+      description="Tech challenge for implement PPD REST API in Django",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="oarga.tamas@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
