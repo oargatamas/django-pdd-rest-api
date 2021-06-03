@@ -136,7 +136,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-PAGE_SIZE = 10
+PAGE_SIZE = 100
 DATE_FORMAT = "%Y-%m-%d %H:%M"
 API_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S"
 CSV_DATA_LOCATION = 'C:/Users/oarga/Downloads/pp-complete.csv'

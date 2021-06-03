@@ -1,5 +1,4 @@
-LATEST_CSV_URL = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv"
-LOCAL_DATE_FILTERED_CSV_FILE_URI = "/samples/sample_date_filtered.csv"
-LOCAL_CSV_FILE_URI = "/samples/sample_all.csv"
+CSV_DATA_LOCATION ="/house_price_paid_data_search/test_data/samples_all.csv"
+CSV_FILTERED_DATA_LOCATION = "/house_price_paid_data_search/test_data/samples_date_filtered.csv"
 
-PAGE_SIZE = 5
+PAGE_SIZE = 100
