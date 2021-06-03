@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ppd_rest_api import settings
+from django.conf import settings
 
 
 class PricePaidDataSerializer(serializers.Serializer):

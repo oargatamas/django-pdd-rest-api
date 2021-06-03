@@ -7,7 +7,7 @@ from typing import IO
 import requests
 
 from . import converters
-from ppd_rest_api import settings
+from django.conf import settings
 
 
 def get_repository():
