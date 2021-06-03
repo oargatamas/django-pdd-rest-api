@@ -4,16 +4,19 @@ from django.http import HttpResponse
 
 # Create your views here.
 from django.urls import reverse
-from rest_framework import renderers, response
+from django.views import View
+from rest_framework import renderers
+from rest_framework.response import Response
+from rest_framework import status
 
-from . import repositories, models
 from . import serializers
 from . import repositories
 from ppd_rest_api import settings
 from .models import PagingPricePaidData
 from .paging import init_paging_details, set_paging_links
+from rest_framework.decorators import api_view, schema
 
-
+@api_view(['GET'])
 def all_ppd(request):
     repository = repositories.get_repository()
     paging = init_paging_details(int(request.GET.get("pageNo", 1)))
@@ -28,15 +31,9 @@ def all_ppd(request):
     content.price_paid_data = result
     content_serializer = serializers.PagingPricePaidDataSerializer(content, many=False)
 
-    render = renderers.JSONRenderer()
+    return Response(content_serializer.data)
 
-    return HttpResponse(
-        status=200,
-        content_type="application/json",
-        content=render.render(content_serializer.data),
-    )
-
-
+@api_view(['GET'])
 def all_ppd_in_period(request, from_period, until_period):
     repository = repositories.get_repository()
     paging = init_paging_details(int(request.GET.get("pageNo", 1)))
@@ -54,31 +51,20 @@ def all_ppd_in_period(request, from_period, until_period):
     content.price_paid_data = result
     content_serializer = serializers.PagingPricePaidDataSerializer(content, many=False)
 
-    render = renderers.JSONRenderer()
+    return Response(content_serializer.data)
 
-    return HttpResponse(
-        status=200,
-        content_type="application/json",
-        content=render.render(content_serializer.data)
-    )
-
-
+@api_view(['GET'])
 def ppd_by_id(request, unique_id):
     repository = repositories.get_repository()
 
 
     result = repository.find_record_by_id(unique_id)
     if not result:
-        return HttpResponse(
-            status=404,
-            content_type="application/json",
+        return Response(
+            data={"message":"Record with id of " + unique_id + " not found."},
+            status=status.HTTP_404_NOT_FOUND
         )
 
     serializer = serializers.PricePaidDataSerializer(result[0], many=False)
-    render = renderers.JSONRenderer()
 
-    return HttpResponse(
-        status=200,
-        content_type="application/json",
-        content=render.render(serializer.data),
-    )
+    return Response(serializer.data)
