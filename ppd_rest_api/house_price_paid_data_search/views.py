@@ -61,6 +61,12 @@ def all_ppd_in_period(request, from_period, until_period):
     parsed_from_period = datetime.strptime(from_period, settings.API_DATE_FORMAT)
     parsed_until_period = datetime.strptime(until_period, settings.API_DATE_FORMAT)
 
+    if parsed_from_period > parsed_until_period:
+        return Response(
+            data={"message": "Invalid date range provided"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
     result = repository.find_all_records_between(parsed_from_period, parsed_until_period, paging.start_record,
                                                  paging.end_record)
 
